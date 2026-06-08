@@ -33,7 +33,7 @@ export function GreenLotDrawer({ onClose, onSuccess, lotId }: GreenLotDrawerProp
         await advancedProductionRepo.createGreenLot(formData);
       }
       onSuccess();
-    } catch (err) {
+    } catch(err: any) {
       toastError('Erro ao salvar lote de grão verde.');
     } finally {
       setLoading(false);

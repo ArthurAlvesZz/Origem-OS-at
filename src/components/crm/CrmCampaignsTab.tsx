@@ -37,7 +37,7 @@ export function CrmCampaignsTab({ crmRepo }: CrmCampaignsTabProps) {
             await crmRepo.launchCampaign(id);
             success("Campanha iniciada. As mensagens foram enviadas para a fila.");
             loadData();
-        } catch(e) {
+        } catch(e: any) {
             error("Erro ao iniciar campanha");
         }
     };
@@ -49,7 +49,7 @@ export function CrmCampaignsTab({ crmRepo }: CrmCampaignsTabProps) {
             setNewCampaignName('');
             success('Campanha criada com sucesso');
             loadData();
-        } catch(e) {
+        } catch(e: any) {
             error("Erro ao criar campanha");
         }
     };

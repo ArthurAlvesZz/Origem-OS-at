@@ -22,7 +22,7 @@ export function CrmAutomationsTab({ crmRepo }: { crmRepo: ICrmRepository }) {
              await crmRepo.createAutomation({ name: newAutoName, trigger: 'Novo Lead B2B', actionsJson: '[]', active: true });
              setNewAutoName('');
              loadData();
-         } catch(e) {}
+         } catch(e: any) { console.error(e); }
      };
 
      const renderAutomationBuilder = (automation: CrmAutomationRecord) => {

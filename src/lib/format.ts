@@ -15,7 +15,7 @@ export const formatDateBR = (iso: string | null | undefined): string => {
   if (!iso) return '-';
   try {
     return new Intl.DateTimeFormat('pt-BR').format(new Date(iso));
-  } catch (e) {
+  } catch(e: any) {
     return '-';
   }
 };

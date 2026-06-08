@@ -47,7 +47,7 @@ export function DigitalMenu() {
       try {
           const mods = await digitalMenuRepo.getModifiers(item.id);
           setActiveItemMods(mods);
-      } catch(e) {} finally {
+      } catch(e: any) { console.error(e); } finally {
           setLoadingMods(false);
       }
   };
@@ -98,7 +98,7 @@ export function DigitalMenu() {
         success('Opção adicionada');
       }
       setPromptData({ isOpen: false, type: 'group', value1: '', value2: '' });
-    } catch(e) {
+    } catch(e: any) {
       error('Erro ao salvar');
     }
   };
@@ -117,7 +117,7 @@ export function DigitalMenu() {
     try {
       const res = await safeFetch('/api/payments/mercadopago/status');
       if (res.connected !== undefined) setMpStatus(res);
-    } catch(e) {}
+    } catch(e: any) { console.error(e); }
   };
 
   const loadData = async () => {
@@ -133,7 +133,7 @@ export function DigitalMenu() {
       setCategories(_cats);
       setItems(_items);
       setOrders(_orders);
-    } catch (e) {
+    } catch(e: any) {
       console.error('Failed to load digital menu data', e);
     } finally {
       setLoading(false);
@@ -534,7 +534,7 @@ export function DigitalMenu() {
                                  const data = await safeFetch('/api/payments/mercadopago/connect-url');
                                  if (data.url) window.location.href = data.url;
                                  else if (data.error) error(`Erro: ${data.message || data.error}`);
-                               } catch(e) { error('Erro ao iniciar conexão.'); }
+                               } catch(e: any) { error('Erro ao iniciar conexão.'); }
                              }}
                              className="w-full justify-center bg-[#009EE3] hover:bg-[#008ACB] text-white"
                           >

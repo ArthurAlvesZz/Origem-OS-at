@@ -47,7 +47,7 @@ export function Relatorios() {
         const res = await reportsRepo.getDocuments();
         setDocuments(res);
       }
-    } catch(err) {
+    } catch(err: any) {
       console.error(err);
     } finally {
       setLoading(false);
@@ -73,7 +73,7 @@ export function Relatorios() {
         });
         success('Documento gerado. Você pode visualizá-lo na aba Documentos.');
       }
-    } catch(err) {
+    } catch(err: any) {
       error('Erro ao gerar documento');
     }
   };
@@ -225,19 +225,19 @@ export function Relatorios() {
                    <Card className="bg-zinc-900/40">
                      <CardContent className="p-6 text-center">
                        <p className="text-xs uppercase tracking-wider font-semibold text-zinc-500 mb-1">Total Vendido</p>
-                       <p className="text-2xl font-semibold font-heading text-zinc-100">{formatCurrency(salesData.totalSales)}</p>
+                       <p className="text-2xl font-semibold font-heading text-zinc-100">{formatCurrency(salesData?.totalSales || 0)}</p>
                      </CardContent>
                    </Card>
                    <Card className="bg-zinc-900/40">
                      <CardContent className="p-6 text-center">
                        <p className="text-xs uppercase tracking-wider font-semibold text-zinc-500 mb-1">Descontos</p>
-                       <p className="text-2xl font-semibold font-heading text-amber-500">{formatCurrency(salesData.totalDiscount)}</p>
+                       <p className="text-2xl font-semibold font-heading text-amber-500">{formatCurrency(salesData?.totalDiscount || 0)}</p>
                      </CardContent>
                    </Card>
                    <Card className="bg-zinc-900/40">
                      <CardContent className="p-6 text-center">
                        <p className="text-xs uppercase tracking-wider font-semibold text-zinc-500 mb-1">Ticket Médio</p>
-                       <p className="text-2xl font-semibold font-heading text-emerald-400">{formatCurrency(salesData.ticketMedio)}</p>
+                       <p className="text-2xl font-semibold font-heading text-emerald-400">{formatCurrency(salesData?.ticketMedio || 0)}</p>
                      </CardContent>
                    </Card>
                 </div>
@@ -343,7 +343,7 @@ export function Relatorios() {
             {['estoque', 'producao', 'consignacao'].includes(activeTab) && (
               <div className="py-20 flex flex-col items-center justify-center text-center">
                  <EmptyState icon={<Filter size={32} className="text-zinc-600"/>} title="Dados Consolidados" description="Resumo gerencial sob medida para explorar histórico e análises desta área. (Visão completa em breve)" />
-                 <Button variant="outline" className="mt-6">Exportar Bruto (CSV)</Button>
+                 <Button disabled variant="outline" className="mt-6 opacity-50 cursor-not-allowed">Exportar Bruto (CSV)</Button>
               </div>
             )}
 

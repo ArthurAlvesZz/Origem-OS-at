@@ -20,7 +20,7 @@ export function TraceabilityList() {
     try {
       const data = await traceabilityRepo.getAll();
       setTraces(data);
-    } catch (e) {
+    } catch(e: any) {
       console.error(e);
     } finally {
       setLoading(false);

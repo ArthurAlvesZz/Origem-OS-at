@@ -45,7 +45,7 @@ export function Crm() {
             const c = await crmRepo.getConversations();
             setConversations(c);
             
-        } catch (e) {
+        } catch(e: any) {
             console.warn("Erro ao carregar dados do CRM", e);
         } finally {
             setIsLoading(false);

@@ -20,7 +20,7 @@ describe('Fase 8A: Vertical CRM para Alimentação Local', () => {
 
     const newDeal = await crm.createDeal({
       pipelineId: encomendas!.id,
-      stageId: encomendas!.stages[0].id,
+      stageId: encomendas!.stages![0].id,
       title: 'Bolo via Automação',
       value: 150,
       customDataJson: JSON.stringify({ flavor: 'Desconhecido' })
@@ -37,7 +37,7 @@ describe('Fase 8A: Vertical CRM para Alimentação Local', () => {
 
     const newDeal = await crm.createDeal({
       pipelineId: b2b!.id,
-      stageId: b2b!.stages[0].id,
+      stageId: b2b!.stages![0].id,
       title: 'Coffee Break (Automação)',
       value: 0
     });

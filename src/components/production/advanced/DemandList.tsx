@@ -16,7 +16,7 @@ export function DemandList({ onProduce }: { onProduce?: (productId: string, qty:
     try {
       const data = await advancedProductionRepo.getProductionDemand();
       setDemand(data);
-    } catch(e) {}
+    } catch(e: any) { console.error(e); }
     setLoading(false);
   }
 

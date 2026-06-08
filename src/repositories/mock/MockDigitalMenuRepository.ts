@@ -153,7 +153,7 @@ export class MockDigitalMenuRepository implements IDigitalMenuRepository {
              const zones = JSON.parse(mockConfig.deliveryZonesJson);
              const matched = zones.find((z:any)=>z.name === payload.deliveryZone && z.active);
              if (matched) deliveryFee = matched.fee;
-         } catch(e) {}
+         } catch(e: any) { console.error(e); }
       }
       total += deliveryFee;
     }

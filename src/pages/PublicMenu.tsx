@@ -63,7 +63,7 @@ export function PublicMenu({ slug }: { slug: string }) {
                 const zones = JSON.parse(res.config.deliveryZonesJson);
                 const activeZone = zones.find((z:any) => z.active);
                 if (activeZone) setDeliveryZone(activeZone.name);
-            } catch(e) {}
+            } catch(e: any) { console.error(e); }
         }
       }
       
@@ -157,7 +157,7 @@ export function PublicMenu({ slug }: { slug: string }) {
           const zones = JSON.parse(config.deliveryZonesJson);
           const matched = zones.find((z:any)=>z.name === deliveryZone && z.active);
           if (matched) currentDeliveryFee = matched.fee;
-      } catch(e) {}
+      } catch(e: any) { console.error(e); }
   }
   
   const finalTotal = cartTotal + (deliveryMethod === 'delivery' ? currentDeliveryFee : 0);
@@ -200,7 +200,7 @@ export function PublicMenu({ slug }: { slug: string }) {
       
       setCheckoutStep('success');
       setCart([]);
-    } catch(e) {
+    } catch(e: any) {
       toastError('Erro ao criar pedido.');
     } finally {
       setLoading(false);
@@ -217,7 +217,7 @@ export function PublicMenu({ slug }: { slug: string }) {
             setOrderStatus(res.status);
             setOrderSummary(prev => prev ? { ...prev, total: res.total } : null);
           }
-        } catch (e) {
+        } catch(e: any) {
             // ignore
         }
       }, 5000);
@@ -442,7 +442,7 @@ export function PublicMenu({ slug }: { slug: string }) {
                                      return zones.filter((z:any)=>z.active).map((z:any) => (
                                          <option key={z.name} value={z.name}>{z.name} - {formatBRL(z.fee)}</option>
                                      ));
-                                 } catch(e) { return null; }
+                                 } catch(e: any) { return null; }
                              })()}
                           </Select>
                       </div>

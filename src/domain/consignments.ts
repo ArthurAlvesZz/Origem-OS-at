@@ -28,7 +28,7 @@ export function createConsignment(
   const partner = partners.find(p => p.id === partnerId);
   if (!partner) throw new Error('Parceiro não encontrado.');
 
-  const items: ConsignmentItem[] = itemsData.map(i => ({
+  const items: ConsignmentItem[] = itemsData.map((i: any) => ({
     productId: i.productId,
     name: i.name,
     qtySent: i.qtySent,
@@ -75,7 +75,7 @@ export function settleConsignment(
   const itemsToCreateOrder = [];
 
   for (const settlement of itemSettlements) {
-    const item = consignment.items.find(i => i.productId === settlement.productId);
+    const item = consignment.items.find((i: any) => i.productId === settlement.productId);
     if (!item) continue;
 
     // Validate quantities
@@ -137,7 +137,7 @@ export function settleConsignment(
   }
 
   // Check if all items are fully allocated
-  const allAllocated = consignment.items.every(i => i.qtySent === (i.qtySold + i.qtyReturned + i.qtyLost));
+  const allAllocated = consignment.items.every((i: any) => i.qtySent === (i.qtySold + i.qtyReturned + i.qtyLost));
   if (allAllocated) {
     consignment.status = 'Fechada';
   }

@@ -57,13 +57,13 @@ export function RastreabilidadePublica() {
 
   // Parse JSONs
   let descriptors: string[] = [];
-  try { if (trace.publicDescriptorsJson) descriptors = JSON.parse(trace.publicDescriptorsJson); } catch (e) {}
+  try { if (trace.publicDescriptorsJson) descriptors = JSON.parse(trace.publicDescriptorsJson); } catch(e: any) { console.error(e); }
 
   let origin: any = null;
-  try { if (trace.publicOriginJson) origin = JSON.parse(trace.publicOriginJson); } catch (e) {}
+  try { if (trace.publicOriginJson) origin = JSON.parse(trace.publicOriginJson); } catch(e: any) { console.error(e); }
 
   let roast: any = null;
-  try { if (trace.roastInfoJson) roast = JSON.parse(trace.roastInfoJson); } catch (e) {}
+  try { if (trace.roastInfoJson) roast = JSON.parse(trace.roastInfoJson); } catch(e: any) { console.error(e); }
 
   const publishedDate = trace.publishedAt ? new Date(trace.publishedAt).toLocaleDateString('pt-BR') : '';
 

@@ -19,7 +19,7 @@ export function ProfileList() {
     try {
       const data = await advancedProductionRepo.getRoastProfiles();
       setProfiles(data);
-    } catch(e) {}
+    } catch(e: any) { console.error(e); }
     setLoading(false);
   }
 

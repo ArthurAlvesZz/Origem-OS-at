@@ -446,7 +446,7 @@ export const createPublicOrder = async (req: Request, res: Response) => {
       tenantId: config.tenantId,
       slug: slug,
       orderId: order.id,
-      trackingNumber: order.trackingNumber,
+      trackingNumber: order.trackingNumber === null ? undefined : order.trackingNumber,
       total,
       paymentMethod: payload.paymentMethod,
       customerName: payload.customerName,
@@ -483,7 +483,7 @@ export const createPublicOrder = async (req: Request, res: Response) => {
 
   res.json({ 
     orderId: order.id,
-    trackingNumber: order.trackingNumber, 
+    trackingNumber: order.trackingNumber === null ? undefined : order.trackingNumber, 
     total, 
     paymentIntentId: paymentIntentResult.paymentIntentId,
     pixQrCode: paymentIntentResult.pixQrCodeText || paymentIntentResult.pixQrCode, 

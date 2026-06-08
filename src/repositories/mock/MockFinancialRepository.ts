@@ -3,6 +3,14 @@ import { FinancialTransaction } from '../../domain/types';
 import { financialTransactions, productionBatches } from '../../data/mocks';
 
 export class MockFinancialRepository implements IFinancialRepository {
+  async getSummary(unitId?: string): Promise<any> {
+    return {
+      revenue: 125000,
+      expenses: 85000,
+      balance: 40000
+    };
+  }
+
   async getTransactions(): Promise<FinancialTransaction[]> {
     return [...financialTransactions];
   }

@@ -109,7 +109,7 @@ export function AdvancedBatchDrawer({ onClose, onSuccess, initialProductId, init
          packagedQuantity: packagedQty || plannedQty
       });
       onSuccess();
-    } catch (e) {
+    } catch(e: any) {
       toastError('Erro ao concluir.');
     } finally {
       setLoading(false);

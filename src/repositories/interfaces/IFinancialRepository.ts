@@ -39,6 +39,7 @@ export interface CashFlowData {
 }
 
 export interface IFinancialRepository {
+  getSummary(unitId?: string): Promise<any>;
   getTransactions(): Promise<FinancialTransaction[]>;
   getAccountsReceivable(): Promise<FinancialTransaction[]>;
   getAccountsPayable(): Promise<FinancialTransaction[]>;

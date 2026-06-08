@@ -19,7 +19,7 @@ export function RecipeList() {
     try {
       const data = await advancedProductionRepo.getRecipes();
       setRecipes(data);
-    } catch(e) {}
+    } catch(e: any) { console.error(e); }
     setLoading(false);
   }
 

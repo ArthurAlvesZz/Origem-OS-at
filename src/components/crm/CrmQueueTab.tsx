@@ -26,7 +26,7 @@ export function CrmQueueTab({ crmRepo }: CrmQueueTabProps) {
             success(`Mensagem simulada enviada com sucesso no sistema.\nNa vida real, usaria a API do provider.\nSe quiser abrir o WhatsApp agora, acesse: https://wa.me/${recipient.replace(/\D/g, '')}?text=${encodeURIComponent(body)}`);
             const q = await crmRepo.getCommunications();
             setQueues(q);
-        } catch(e) {
+        } catch(e: any) {
             toastError("Erro ao simular");
         }
     };

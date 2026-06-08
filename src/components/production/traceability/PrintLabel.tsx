@@ -11,10 +11,10 @@ export function PrintLabel({ trace, size = 'small' }: PrintLabelProps) {
   const url = `${window.location.origin}/lote/${trace.publicCode}`;
   
   let roast: any = null;
-  try { if (trace.roastInfoJson) roast = JSON.parse(trace.roastInfoJson); } catch (e) {}
+  try { if (trace.roastInfoJson) roast = JSON.parse(trace.roastInfoJson); } catch(e: any) { console.error(e); }
 
   let descriptors: string[] = [];
-  try { if (trace.publicDescriptorsJson) descriptors = JSON.parse(trace.publicDescriptorsJson); } catch (e) {}
+  try { if (trace.publicDescriptorsJson) descriptors = JSON.parse(trace.publicDescriptorsJson); } catch(e: any) { console.error(e); }
   
   return (
     <div className={`print-only flex items-center justify-center p-4 bg-white text-black font-sans w-full h-full ${size === 'small' ? 'max-w-[50mm]' : 'max-w-[70mm]'}`}>

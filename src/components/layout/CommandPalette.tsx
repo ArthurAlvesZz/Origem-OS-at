@@ -86,7 +86,7 @@ export function CommandPalette({ isOpen, onClose, onNavigate, navGroups }: Comma
         });
 
         setResults(newResults);
-      } catch (err) {
+      } catch(err: any) {
         console.error('Command palette search error', err);
       }
     };

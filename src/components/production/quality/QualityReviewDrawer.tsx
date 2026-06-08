@@ -74,7 +74,7 @@ export function QualityReviewDrawer({ reviewId, onClose, onSuccess }: QualityRev
         qualityRepo.approveReview(reviewId, notes)
       ]);
       onSuccess();
-    } catch (e) {
+    } catch(e: any) {
       toastError('Erro ao aprovar lote.');
     } finally {
       setLoading(false);
@@ -107,7 +107,7 @@ export function QualityReviewDrawer({ reviewId, onClose, onSuccess }: QualityRev
         qualityRepo.rejectReview(reviewId, notes)
       ]);
       onSuccess();
-    } catch (e) {
+    } catch(e: any) {
       toastError('Erro ao reprovar lote.');
     } finally {
       setLoading(false);

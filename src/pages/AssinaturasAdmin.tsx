@@ -38,7 +38,7 @@ export function AssinaturasAdmin() {
         const res = await storefrontRepo.getSubscriptions();
         setSubscriptions(res);
       }
-    } catch (e) {
+    } catch(e: any) {
       console.warn("Erro ao buscar dados de assinaturas", e);
     } finally {
       setIsLoading(false);
@@ -56,7 +56,7 @@ export function AssinaturasAdmin() {
     try {
       await storefrontRepo.updateRequestStatus(id, status);
       fetchData();
-    } catch (e) {
+    } catch(e: any) {
       toastError('Erro ao atualizar status');
     }
   };
@@ -65,7 +65,7 @@ export function AssinaturasAdmin() {
      try {
        await storefrontRepo.updateSubscriptionStatus(id, status);
        fetchData();
-     } catch (e) {
+     } catch(e: any) {
        toastError('Erro ao atualizar status');
      }
   };

@@ -40,7 +40,7 @@ export function Clientes() {
     try {
       const data = await customerRepo.getCustomers();
       setCustomers(data);
-    } catch (err) {
+    } catch(err: any) {
       console.error(err);
       error('Erro ao carregar clientes');
     } finally {

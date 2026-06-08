@@ -21,7 +21,7 @@ export function B2BCatalog() {
     try {
       const data = await b2bCatalogRepo.getItems();
       setItems(data);
-    } catch(e) {}
+    } catch(e: any) { console.error(e); }
     setLoading(false);
   }
 
@@ -40,7 +40,7 @@ export function B2BCatalog() {
         title="Catálogo B2B" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Catálogo B2B"}]}
         description="Gerencie produtos, preços B2B e quantidades mínimas."
         action={
-          <Button variant="primary" className="flex items-center gap-2">
+          <Button disabled variant="primary" className="flex items-center gap-2 opacity-50 cursor-not-allowed">
             <Plus size={16} /> Novo Produto
           </Button>
         }
@@ -53,7 +53,7 @@ export function B2BCatalog() {
             title="Nenhum produto no Catálogo B2B"
             description="Adicione produtos e defina tabelas e quantidades mínimas para começar a atender atacadistas."
             action={
-              <Button variant="outline" className="mt-4">
+              <Button disabled variant="outline" className="mt-4 opacity-50 cursor-not-allowed">
                 <Plus size={16} className="mr-2" />
                 Adicionar Primeiro Produto
               </Button>

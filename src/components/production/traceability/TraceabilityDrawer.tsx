@@ -50,7 +50,7 @@ export function TraceabilityDrawer({ traceId, onClose, onSuccess }: Traceability
         setTitle(data.title);
         setSummary(data.summary || '');
       }
-    } catch (e) {
+    } catch(e: any) {
       console.error(e);
       toastError('Erro ao carregar rastreio');
     }
@@ -61,7 +61,7 @@ export function TraceabilityDrawer({ traceId, onClose, onSuccess }: Traceability
       const all = await qualityRepo.getReviews();
       const approved = all.filter(r => r.status === 'approved' || r.status === 'approved_with_notes');
       setApprovedReviews(approved);
-    } catch (e) {
+    } catch(e: any) {
       console.error(e);
     }
   };
@@ -100,7 +100,7 @@ export function TraceabilityDrawer({ traceId, onClose, onSuccess }: Traceability
     try {
       await traceabilityRepo.publish(trace.id);
       onSuccess();
-    } catch (e) {
+    } catch(e: any) {
       toastError('Erro ao publicar');
       setLoading(false);
     }
@@ -121,7 +121,7 @@ export function TraceabilityDrawer({ traceId, onClose, onSuccess }: Traceability
     try {
       await traceabilityRepo.unpublish(trace.id);
       onSuccess();
-    } catch (e) {
+    } catch(e: any) {
       toastError('Erro ao despublicar');
       setLoading(false);
     }

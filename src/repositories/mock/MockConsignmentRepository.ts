@@ -25,7 +25,7 @@ export class MockConsignmentRepository implements IConsignmentRepository {
       partnerId: data.partnerId,
       partnerName: data.partnerName,
       status: 'Aberta',
-      items: data.items.map(i => ({
+      items: data.items.map((i: any) => ({
          productId: i.productId,
          name: i.name,
          qtySent: i.sentQty,
@@ -47,7 +47,7 @@ export class MockConsignmentRepository implements IConsignmentRepository {
     if (idx === -1) throw new Error('Consignação não encontrada');
 
     const c = consignments[idx];
-    const updatedItems = c.items.map(i => {
+    const updatedItems = c.items.map((i: any) => {
       const settled = data.items.find(s => s.productId === i.productId);
       if (settled) {
         return { 
@@ -60,7 +60,7 @@ export class MockConsignmentRepository implements IConsignmentRepository {
       return i;
     });
 
-    const isFullySettled = updatedItems.every(i => (i.qtySold || 0) + (i.qtyReturned || 0) + (i.qtyLost || 0) >= i.qtySent);
+    const isFullySettled = updatedItems.every((i: any) => (i.qtySold || 0) + (i.qtyReturned || 0) + (i.qtyLost || 0) >= i.qtySent);
     
     consignments[idx] = {
       ...c,

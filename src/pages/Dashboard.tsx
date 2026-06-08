@@ -9,6 +9,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { useRepositories } from '../repositories/RepositoryProvider';
 import { DashboardSummary, DashboardAlert, DashboardActivity, DashboardInsight, Order } from '../domain/types';
 import { BusinessIntelligenceEngine } from '../components/dashboard/BusinessIntelligenceEngine';
+import { MultiUnitDashboard } from '../components/dashboard/MultiUnitDashboard';
 import { BRAND } from '../lib/brand';
 import { formatBRL, formatNumber } from '../lib/format';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -195,23 +196,26 @@ export function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="max-w-[1400px] mx-auto space-y-8 p-4 md:p-8 animate-in fade-in duration-500">
       
       {/* Dynamic Greeting */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-           <h2 className="text-3xl font-heading font-semibold text-zinc-50 tracking-tight">Command Center</h2>
-           <p className="text-sm text-zinc-400 mt-2 max-w-xl">Resumo diário da sua operação, saúde financeira e próximos passos.</p>
-        </div>
-        <div className="flex gap-3">
-          {quickActions.map((action, idx) => (
-             <Button key={idx} variant="outline" size="sm" onClick={action.action} className="gap-2">
-                <action.icon size={16} />
-                <span className="hidden sm:inline">{action.label}</span>
-             </Button>
-          ))}
-        </div>
-      </div>
+      <PageHeader 
+        title="Command Center" 
+        breadcrumbs={[{label: "Dashboard", href: "#/"}]} 
+        description="Resumo diário da sua operação, saúde financeira e próximos passos."
+        action={
+          <div className="flex gap-3">
+            {quickActions.map((action, idx) => (
+               <Button key={idx} variant="outline" size="sm" onClick={action.action} className="gap-2">
+                  <action.icon size={16} />
+                  <span className="hidden sm:inline">{action.label}</span>
+               </Button>
+            ))}
+          </div>
+        }
+      />
+
+      <MultiUnitDashboard />
 
       {/* Metric Cards - Command Center Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -274,34 +278,40 @@ export function Dashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="h-72 w-full mt-4">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={revenueData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
-                    <XAxis 
-                      dataKey="name" 
-                      axisLine={false} 
-                      tickLine={false} 
-                      tick={{ fontSize: 12, fill: '#71717A' }} 
-                      dy={10}
-                    />
-                    <YAxis 
-                      axisLine={false} 
-                      tickLine={false} 
-                      tick={{ fontSize: 12, fill: '#71717A' }}
-                      tickFormatter={(val) => `R$ ${val/1000}k`}
-                    />
-                    <Tooltip 
-                      cursor={{ fill: 'rgba(244, 244, 245, 0.05)' }}
-                      contentStyle={{ backgroundColor: '#09090b', borderRadius: '8px', border: '1px solid #27272a', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
-                      labelStyle={{ fontWeight: 600, color: '#fafafa', marginBottom: '4px' }}
-                      itemStyle={{ color: '#a1a1aa' }}
-                    />
-                    <Bar dataKey="recebido" name="Recebido" fill="#C59868" radius={[4, 4, 0, 0]} barSize={24} />
-                    <Bar dataKey="previsto" name="Previsto a Receber" fill="#27272a" stroke="#100C08" strokeWidth={1} radius={[4, 4, 0, 0]} barSize={24} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              {revenueData.every(d => d.recebido === 0 && d.previsto === 0) ? (
+                 <div className="h-72 w-full mt-4 flex items-center justify-center text-sm text-zinc-500">
+                    Sem dados suficientes no período.
+                 </div>
+              ) : (
+                <div className="h-72 w-full mt-4">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={revenueData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
+                      <XAxis 
+                        dataKey="name" 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fontSize: 12, fill: '#71717A' }} 
+                        dy={10}
+                      />
+                      <YAxis 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fontSize: 12, fill: '#71717A' }}
+                        tickFormatter={(val) => `R$ ${val/1000}k`}
+                      />
+                      <Tooltip 
+                        cursor={{ fill: 'rgba(244, 244, 245, 0.05)' }}
+                        contentStyle={{ backgroundColor: '#09090b', borderRadius: '8px', border: '1px solid #27272a', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
+                        labelStyle={{ fontWeight: 600, color: '#fafafa', marginBottom: '4px' }}
+                        itemStyle={{ color: '#a1a1aa' }}
+                      />
+                      <Bar dataKey="recebido" name="Recebido" fill="#C59868" radius={[4, 4, 0, 0]} barSize={24} />
+                      <Bar dataKey="previsto" name="Previsto a Receber" fill="#27272a" stroke="#100C08" strokeWidth={1} radius={[4, 4, 0, 0]} barSize={24} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -357,7 +367,7 @@ export function Dashboard() {
 
         {/* Col 3: Action Center & Alerts */}
         <div className="space-y-6">
-          <BusinessIntelligenceEngine onNavigate={onNavigateAndDispatch} />
+          <BusinessIntelligenceEngine onNavigate={onNavigateAndDispatch} summary={summary} />
         </div>
 
       </div>

@@ -41,7 +41,7 @@ export function Configuracoes() {
       setBusinessRules(br);
       setProductionRules(pr);
       setFlags(f);
-    } catch (err) {
+    } catch(err: any) {
       console.error(err);
     } finally {
       setLoading(false);
@@ -54,7 +54,7 @@ export function Configuracoes() {
       const updated = await settingsRepo.updateProfile(profile);
       setProfile(updated);
       success('Perfil salvo com sucesso');
-    } catch (e) { error('Erro ao salvar'); }
+    } catch(e: any) { error('Erro ao salvar'); }
   };
 
   const handleSaveBusinessRules = async () => {
@@ -63,7 +63,7 @@ export function Configuracoes() {
       const updated = await settingsRepo.updateBusinessRules(businessRules);
       setBusinessRules(updated);
       success('Regras salvas.');
-    } catch (e) { error('Erro ao salvar'); }
+    } catch(e: any) { error('Erro ao salvar'); }
   };
 
   const handleSaveProductionRules = async () => {
@@ -72,7 +72,7 @@ export function Configuracoes() {
       const updated = await settingsRepo.updateProductionRules(productionRules);
       setProductionRules(updated);
       success('Regras salvas.');
-    } catch (e) { error('Erro ao salvar'); }
+    } catch(e: any) { error('Erro ao salvar'); }
   };
 
   const handleSaveFlags = async () => {
@@ -81,7 +81,7 @@ export function Configuracoes() {
       const updated = await settingsRepo.updateModuleFlags(flags);
       setFlags(updated);
       success('Módulos salvos.');
-    } catch (e) { error('Erro ao salvar'); }
+    } catch(e: any) { error('Erro ao salvar'); }
   };
 
   // Branch simple toggle
@@ -326,7 +326,7 @@ export function Configuracoes() {
                           <span className="text-[10px] font-bold bg-zinc-800 text-zinc-500 px-2 py-0.5 rounded border border-zinc-700 uppercase tracking-wider">Desconectado</span>
                        </div>
                        <p className="text-xs text-zinc-500 mb-4 h-8 flex-1">Receba os pedidos diretamente no PDV e envie para a cozinha / KDS automaticamente.</p>
-                       <Button variant="outline" size="sm" className="w-full text-xs hover:text-amber-500">Configurar Conexão</Button>
+                       <Button variant="outline" size="sm" disabled className="w-full text-xs hover:text-amber-500 opacity-50 cursor-not-allowed">Configurar Conexão</Button>
                     </div>
 
                     <div className="bg-zinc-950 border border-emerald-500/30 rounded-xl p-5 hover:border-emerald-500 transition-colors flex flex-col justify-between shadow-[0_0_15px_rgba(16,185,129,0.05)]">

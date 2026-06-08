@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Store, ChevronDown, Check, Building2, Layers, Factory } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useStoreContext } from '../../contexts/StoreContext';
 
 export function StoreSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedUnit, setSelectedUnit] = useState('consolidado');
+  const { activeStoreId: selectedUnit, setActiveStoreId: setSelectedUnit } = useStoreContext();
 
   const units = [
     { id: 'consolidado', name: 'Visão Consolidada', icon: Layers, type: 'all' },
@@ -56,7 +57,7 @@ export function StoreSwitcher() {
               </button>
             ))}
             <div className="border-t border-zinc-800 mt-1 pt-1">
-               <button className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-lg w-full transition-colors">
+               <button disabled className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-zinc-400 hover:text-zinc-200 w-full transition-colors opacity-50 cursor-not-allowed">
                   <Building2 size={12} /> Gerenciar Filiais
                </button>
             </div>

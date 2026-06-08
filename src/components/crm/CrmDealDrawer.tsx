@@ -20,7 +20,7 @@ export function CrmDealDrawer({ deal, onClose, onStatusChange }: CrmDealDrawerPr
     if (!deal) return null;
 
     let customData: any = {};
-    try { if (deal.customDataJson) customData = JSON.parse(deal.customDataJson); } catch (e) {}
+    try { if (deal.customDataJson) customData = JSON.parse(deal.customDataJson); } catch(e: any) { console.error(e); }
 
     const handleAction = async (status: string) => {
         if (status === 'lost') {

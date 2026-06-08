@@ -40,7 +40,7 @@ export function LojaPublica() {
         roastProfile: i === 0 ? 'Média' : 'Média Clara',
       }));
       setPlans(embellishedPlans);
-    } catch (e) {
+    } catch(e: any) {
       console.warn("Erro ao carregar loja.", e);
     } finally {
       setIsLoading(false);
@@ -67,7 +67,7 @@ export function LojaPublica() {
         status: 'pending',
       });
       setTimeout(() => setCheckoutStep('pix'), 800); // add artificial delay for cinematic feel
-    } catch (error) {
+    } catch(error: any) {
        toastError("Erro ao enviar interesse. Tente novamente.");
     } finally {
       setIsSubmitting(false);

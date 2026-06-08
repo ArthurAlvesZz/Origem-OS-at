@@ -123,7 +123,7 @@ export class ApiDigitalMenuRepository implements IDigitalMenuRepository {
   async getPublicMenu(slug: string): Promise<{ config: DigitalMenuConfig; categories: DigitalMenuCategory[] } | null> {
     try {
       return await safeFetch(`/api/public/menu/${slug}`);
-    } catch (e) {
+    } catch(e: any) {
       return null;
     }
   }
@@ -138,7 +138,7 @@ export class ApiDigitalMenuRepository implements IDigitalMenuRepository {
   async getPublicOrder(slug: string, id: string): Promise<Order | null> {
     try {
       return await safeFetch(`/api/public/menu/${slug}/orders/${id}`);
-    } catch(e) {
+    } catch(e: any) {
       return null;
     }
   }

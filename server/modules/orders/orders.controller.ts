@@ -104,7 +104,7 @@ export const createOrder = async (req: Request, res: Response) => {
   // 2. Validate items and prepare totals
   let subtotal = 0;
   let estimatedCost = 0;
-  const orderItemsData = [];
+  const orderItemsData: any[] = [];
 
   for (const item of data.items) {
     const product = productMap.get(item.productId);
@@ -124,8 +124,8 @@ export const createOrder = async (req: Request, res: Response) => {
     estimatedCost += lineCost;
 
     orderItemsData.push({
-      productId: item.productId,
-      variantId: item.variantId,
+      productId: item.productId === null ? "" : item.productId,
+      variantId: item.variantId === null ? undefined : item.variantId,
       name: product.name,
       sku: product.sku,
       qty: item.qty,
@@ -175,8 +175,8 @@ export const createOrder = async (req: Request, res: Response) => {
         await tx.stockMovement.create({
           data: {
             tenantId,
-            productId: item.productId,
-            variantId: item.variantId,
+            productId: item.productId === null ? "" : item.productId,
+            variantId: item.variantId === null ? undefined : item.variantId,
             movementType: 'Saída',
             qty: item.qty,
             unitCost: item.unitCost,
@@ -248,8 +248,8 @@ export const cancelOrder = async (req: Request, res: Response) => {
         await tx.stockMovement.create({
           data: {
             tenantId,
-            productId: item.productId,
-            variantId: item.variantId,
+            productId: item.productId === null ? "" : item.productId,
+            variantId: item.variantId === null ? undefined : item.variantId,
             movementType: 'Entrada', // Returning to stock
             qty: item.qty,
             unitCost: item.unitCost,

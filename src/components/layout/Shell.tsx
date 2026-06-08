@@ -233,11 +233,7 @@ export function Shell({ children, currentPage, onNavigate }: ShellProps) {
       >
           {/* App Header */}
           <header className="h-[72px] bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-900/50 sticky top-0 z-40 px-6 md:px-8 flex items-center justify-between transition-all">
-            <div className="flex items-center gap-4">
-               <h1 className="text-xl md:text-2xl font-heading font-semibold text-zinc-100 tracking-tight capitalize">
-                 {getPageTitle()}
-               </h1>
-               <div className="hidden sm:block w-px h-6 bg-zinc-800 mx-2"></div>
+            <div className="flex items-center gap-4 shrink-0 min-w-fit">
                <StoreSwitcher />
             </div>
             

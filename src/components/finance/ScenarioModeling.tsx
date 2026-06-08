@@ -1,49 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, TrendingDown, Target, HelpCircle, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { formatBRL } from '../../lib/format';
+import { useRepositories } from '../../repositories/RepositoryProvider';
+import { Input } from '../ui/Input';
 
 export function ScenarioModeling() {
+  const { dashboardRepo } = useRepositories();
   const [activeScenario, setActiveScenario] = useState<'base' | 'pessimista' | 'otimista'>('base');
+  
+  const [custosFixos, setCustosFixos] = useState(25000);
+  const [taxaCrescimento, setTaxaCrescimento] = useState(10);
+  const [ticketMedio, setTicketMedio] = useState(45);
+  
+  const [initialRevenue, setInitialRevenue] = useState(45000);
 
-  const baseData = [
-    { month: 'Jun', value: 45000 },
-    { month: 'Jul', value: 48000 },
-    { month: 'Ago', value: 52000 },
-    { month: 'Set', value: 55000 },
-    { month: 'Out', value: 60000 },
-    { month: 'Nov', value: 65000 },
-  ];
+  useEffect(() => {
+     async function fetchInitial() {
+        try {
+           const p = await dashboardRepo.getSummary();
+           if (p.faturamentoMes) {
+              setInitialRevenue(p.faturamentoMes);
+           }
+        } catch(e: any) { console.error(e); }
+     }
+     fetchInitial();
+  }, [dashboardRepo]);
 
-  const pessimistaData = [
-    { month: 'Jun', value: 45000 },
-    { month: 'Jul', value: 41000 },
-    { month: 'Ago', value: 39000 },
-    { month: 'Set', value: 38000 },
-    { month: 'Out', value: 35000 },
-    { month: 'Nov', value: 32000 },
-  ];
+  useEffect(() => {
+     if (activeScenario === 'pessimista') setTaxaCrescimento(-5);
+     else if (activeScenario === 'base') setTaxaCrescimento(10);
+     else if (activeScenario === 'otimista') setTaxaCrescimento(25);
+  }, [activeScenario]);
 
-  const otimistaData = [
-    { month: 'Jun', value: 45000 },
-    { month: 'Jul', value: 55000 },
-    { month: 'Ago', value: 68000 },
-    { month: 'Set', value: 85000 },
-    { month: 'Out', value: 105000 },
-    { month: 'Nov', value: 130000 },
-  ];
-
-  const getData = () => {
-    switch(activeScenario) {
-      case 'otimista': return otimistaData;
-      case 'pessimista': return pessimistaData;
-      default: return baseData;
+  const generateData = () => {
+    let currentVal = initialRevenue;
+    const months = ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6'];
+    const data = [];
+    for (let i = 0; i < 6; i++) {
+       data.push({
+          month: months[i],
+          value: Math.round(currentVal),
+          custos: custosFixos
+       });
+       currentVal = currentVal * (1 + taxaCrescimento / 100);
     }
+    return data;
   };
 
-  const currentData = getData();
-  const lastValue = currentData[currentData.length -1].value;
+  const currentData = generateData();
+  const lastValue = currentData[5].value;
   const firstValue = currentData[0].value;
   const growth = ((lastValue - firstValue) / firstValue) * 100;
 
@@ -79,6 +86,35 @@ export function ScenarioModeling() {
          </div>
       </CardHeader>
       <CardContent className="pt-6">
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 pb-6 border-b border-zinc-800/50">
+           <div className="space-y-2">
+             <label className="text-zinc-400 text-xs text-left">Custos Fixos (R$)</label>
+             <Input 
+                 type="number" 
+                 className="bg-zinc-950/50" 
+                 value={custosFixos} 
+                 onChange={e => setCustosFixos(Number(e.target.value))} 
+             />
+           </div>
+           <div className="space-y-2">
+             <label className="text-zinc-400 text-xs text-left">Crescimento (%) Mês</label>
+             <Input 
+                 type="number" 
+                 className="bg-zinc-950/50" 
+                 value={taxaCrescimento} 
+                 onChange={e => setTaxaCrescimento(Number(e.target.value))} 
+             />
+           </div>
+           <div className="space-y-2">
+             <label className="text-zinc-400 text-xs text-left">Ticket Médio Projetado (R$)</label>
+             <Input 
+                 type="number" 
+                 className="bg-zinc-950/50" 
+                 value={ticketMedio} 
+                 onChange={e => setTicketMedio(Number(e.target.value))} 
+             />
+           </div>
+         </div>
          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-3 h-72">
                <ResponsiveContainer width="100%" height="100%">
@@ -102,7 +138,7 @@ export function ScenarioModeling() {
                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#A1A1AA' }} tickFormatter={(val) => `R$${val/1000}k`} />
                    <Tooltip 
                      contentStyle={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '8px' }}
-                     formatter={(value: number) => [formatBRL(value), 'Caixa Projetado']}
+                     formatter={(value: any) => [formatBRL(value), 'Caixa Projetado']}
                    />
                    <Area 
                      type="monotone" 

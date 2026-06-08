@@ -34,7 +34,7 @@ export function ProfileDrawer({ onClose, onSuccess }: ProfileDrawerProps) {
     try {
       await advancedProductionRepo.createRoastProfile(formData);
       onSuccess();
-    } catch (err) {
+    } catch(err: any) {
       toastError('Erro ao salvar perfil.');
     } finally {
       setLoading(false);

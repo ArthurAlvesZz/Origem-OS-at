@@ -44,7 +44,7 @@ export function Equipe() {
         const res = await teamRepo.getAuditLogs();
         setAuditLogs(res);
       }
-    } catch (e) {
+    } catch(e: any) {
       console.warn("Falha ao buscar equipe: ", e);
     } finally {
       setIsLoading(false);
@@ -94,7 +94,7 @@ export function Equipe() {
         <h3 className="font-heading font-semibold text-zinc-50 flex items-center gap-2">
           <Users size={18} className="text-amber-500" /> Equipe Ativa
         </h3>
-        <Button className="flex items-center gap-2 text-xs h-9">
+        <Button disabled className="flex items-center gap-2 text-xs h-9 opacity-50 cursor-not-allowed">
           <UserPlus size={16} /> Novo Membro
         </Button>
       </div>
@@ -165,10 +165,10 @@ export function Equipe() {
                   </td>
                   <td className="p-5 text-right">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 text-zinc-400 hover:text-amber-500" title="Editar Permissões">
+                      <Button variant="outline" size="sm" disabled className="h-8 w-8 p-0 text-zinc-400 hover:text-amber-500 opacity-50 cursor-not-allowed" title="Editar Permissões">
                         <Shield size={14} />
                       </Button>
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 text-zinc-400 hover:text-amber-500" title="Editar Usuário">
+                      <Button variant="outline" size="sm" disabled className="h-8 w-8 p-0 text-zinc-400 hover:text-amber-500 opacity-50 cursor-not-allowed" title="Editar Usuário">
                         <Edit2 size={14} />
                       </Button>
                       <Button variant="outline" size="sm" onClick={() => handleStatusChange(m)} className={`h-8 w-8 p-0 ${m.status === 'active' ? 'text-zinc-400 hover:text-red-500 hover:border-red-500/50' : 'text-zinc-400 hover:text-emerald-500 hover:border-emerald-500/50'}`} title={m.status === 'active' ? 'Suspender' : 'Reativar'}>
@@ -191,7 +191,7 @@ export function Equipe() {
       <div className="col-span-1">
         <h3 className="font-heading font-semibold text-lg text-zinc-50 mb-4 flex items-center justify-between">
           Papéis (Roles)
-          <Button variant="outline" size="sm" className="h-8 text-xs text-amber-500 hover:text-amber-400 border-amber-500/20 hover:bg-amber-500/10">
+          <Button disabled variant="outline" size="sm" className="h-8 text-xs text-amber-500 hover:text-amber-400 border-amber-500/20 hover:bg-amber-500/10 opacity-50 cursor-not-allowed">
             <UserPlus size={14} className="mr-1.5"/> Novo Papel
           </Button>
         </h3>

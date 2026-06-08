@@ -26,7 +26,7 @@ export function PaymentGatewayPanel() {
       setIntents(pIntents);
       const conf = await paymentRepo.getProviderConfig();
       setConfig(conf);
-    } catch (e) {
+    } catch(e: any) {
       console.warn("Erro ao carregar pagamentos", e);
     } finally {
       setIsLoading(false);
@@ -37,7 +37,7 @@ export function PaymentGatewayPanel() {
     try {
       await paymentRepo.markAsPaidManual(id);
       fetchData(); // refresh
-    } catch(e) {
+    } catch(e: any) {
       toastError("Erro ao marcar como pago");
     }
   };
@@ -46,7 +46,7 @@ export function PaymentGatewayPanel() {
     try {
       await paymentRepo.cancelIntent(id);
       fetchData();
-    } catch(e) {
+    } catch(e: any) {
       toastError("Erro ao cancelar intention");
     }
   };

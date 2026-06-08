@@ -11,6 +11,11 @@ export class ApiFinancialRepository implements IFinancialRepository {
     };
   }
 
+  async getSummary(unitId?: string): Promise<any> {
+    const json = await safeFetch('/api/finance/summary' + (unitId ? `?unit=${unitId}` : ''), { headers: this.getHeaders() });
+    return json.data || {};
+  }
+
   async getTransactions(): Promise<FinancialTransaction[]> {
     const json = await safeFetch('/api/finance/transactions', { headers: this.getHeaders() });
     return json.data;

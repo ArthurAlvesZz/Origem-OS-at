@@ -5,13 +5,38 @@ import { formatBRL } from '../../lib/format';
 
 interface BiEngineProps {
   onNavigate: (page: string, data?: any) => void;
+  summary: any;
 }
 
-export function BusinessIntelligenceEngine({ onNavigate }: BiEngineProps) {
-  // Hardcoded highly realistic BI data to act as the AI engine output (as we don't have a real ML backend)
-  const healthScore = 78;
+export function BusinessIntelligenceEngine({ onNavigate, summary }: BiEngineProps) {
+  if (!summary) {
+    return (
+      <div className="space-y-6">
+         <Card className="border-amber-500/20 bg-gradient-to-b from-amber-500/5 to-transparent relative overflow-hidden">
+            <CardContent className="p-6 text-center text-sm text-zinc-500">
+               Dados insuficientes para análise
+            </CardContent>
+         </Card>
+      </div>
+    );
+  }
+
+  // Calculate health score dynamically
+  let healthScore = 100;
+  if (summary.faturamentoMes < summary.metaFaturamento) {
+    healthScore -= 15;
+  }
+  if (summary.margemBruta < 40) {
+    healthScore -= 10;
+  }
+  if (summary.estoqueCritico > 0) {
+    healthScore -= 10;
+  }
+  
   const healthStatus = healthScore >= 80 ? 'Excelente' : healthScore >= 60 ? 'Atenção' : 'Crítico';
   const healthColor = healthScore >= 80 ? 'text-emerald-500' : healthScore >= 60 ? 'text-amber-500' : 'text-red-500';
+
+  const forecast = summary.faturamentoMes * 1.15; // Simple simulation
 
   return (
     <div className="space-y-6">
@@ -58,7 +83,7 @@ export function BusinessIntelligenceEngine({ onNavigate }: BiEngineProps) {
                    <Target size={14} className="text-blue-400"/>
                    <span className="text-[10px] font-semibold uppercase tracking-wider">Forecast 30d</span>
                 </div>
-                <div className="text-sm font-semibold text-zinc-100">{formatBRL(42500)}</div>
+                <div className="text-sm font-semibold text-zinc-100">{formatBRL(forecast)}</div>
                 <div className="text-[10px] text-emerald-400 mt-1 flex items-center gap-1"><TrendingUp size={10} /> +8% vs real</div>
              </div>
              

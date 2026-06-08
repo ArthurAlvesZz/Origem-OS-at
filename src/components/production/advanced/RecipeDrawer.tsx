@@ -38,7 +38,7 @@ export function RecipeDrawer({ onClose, onSuccess }: RecipeDrawerProps) {
       }
       await advancedProductionRepo.createRecipe(formData);
       onSuccess();
-    } catch (err) {
+    } catch(err: any) {
       toastError('Erro ao salvar receita.');
     } finally {
       setLoading(false);

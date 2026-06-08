@@ -35,7 +35,7 @@ export async function safeFetch(url: string, options?: RequestInit): Promise<any
             try {
                const errData = await res.json();
                errMessage = errData.error || errData.message || errMessage;
-            } catch(e) {}
+            } catch(e: any) { console.error(e); }
         }
         throw new Error(errMessage);
     }

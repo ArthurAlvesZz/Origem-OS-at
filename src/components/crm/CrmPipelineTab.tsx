@@ -52,7 +52,7 @@ export function CrmPipelineTab({ pipelines, activePipelineId, setActivePipelineI
                         <div className="p-3 flex flex-col gap-3 min-h-[400px]">
                             {stageDeals.map(deal => {
                                 let customData: any = {};
-                                try { if (deal.customDataJson) customData = JSON.parse(deal.customDataJson); } catch (e) {}
+                                try { if (deal.customDataJson) customData = JSON.parse(deal.customDataJson); } catch(e: any) { console.error(e); }
 
                                 return (
                                 <div key={deal.id} onClick={() => setSelectedDeal(deal)} className="bg-zinc-950 border border-zinc-800/80 hover:border-[#C59868]/50 hover:shadow-[0_0_15px_rgba(197,152,104,0.05)] rounded-xl p-4 cursor-pointer transition-all group">
