@@ -1,11 +1,15 @@
-<div align="center">
+# Gestão OS
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Origem OS is a full-stack SaaS ERP for coffee shops, roasteries, and wholesale/retail operations.
 
-  <h1>Built with AI Studio</h2>
+## Environment setup in AI Studio 
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **AI Studio Preview**: By default, the application runs in `mock` mode to avoid blocking the preview with database credentials prompts. To connect a real backend locally, configure your `DATABASE_URL` and change `DATA_MODE` to `api`. 
+- **Production**: Make sure to set all required environment variables, including `DATABASE_URL`, `JWT_SECRET`, and `PAYMENTS_ENCRYPTION_KEY`. Use `.env.example` as a guide.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Starting the Application
 
-</div>
+```bash
+npm install
+npm run dev
+```

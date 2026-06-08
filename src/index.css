@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..400;1,9..40,300..400&family=Montserrat:wght@400;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* CofCof Premium Palette */
+  --color-cof-black: #0A0A0A;
+  --color-cof-sand: #F6F1EB;
+  --color-cof-sand-2: #EFE7DB;
+  --color-cof-parch: #E8E0D4;
+  --color-cof-clay: #7A6654;
+  --color-cof-gold: #C9A263;
+  --color-cof-text-muted: #6B6B6B;
+  
+  /* Retaining some zinc aliases for compatibility in existing CRM dashboard */
+
+  --color-zinc-950: #100C08;
+  --color-zinc-900: #181512;
+  --color-zinc-800: #26221E;
+  --color-zinc-700: #3B342E;
+  --color-zinc-600: #574B41;
+  --color-zinc-500: #8E7A68;
+  --color-zinc-400: #B8A89A;
+  --color-zinc-300: #D8D0C9;
+  --color-zinc-200: #EBE6E1;
+  --color-zinc-100: #F4F1ED;
+  --color-zinc-50:  #FAF9F7;
+
+  /* Accent Gold/Amber */
+  --color-amber-500: #C59868;
+  --color-amber-400: #D9B185;
+  --color-amber-600: #AD7F50;
+
+  /* Success & Error refined */
+  --color-emerald-500: #528F65;
+  --color-emerald-400: #67AC7C;
+  --color-red-500: #AF4D4D;
+  --color-red-400: #C96666;
+
+  @keyframes shine {
+    0% { transform: translateX(-150%) skewX(30deg); }
+    100% { transform: translateX(200%) skewX(30deg); }
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}
+
+@layer base {
+  :root {
+    --bg-main: var(--color-zinc-950);
+    --bg-surface: var(--color-zinc-900);
+    --bg-surface-elevated: var(--color-zinc-800);
+    --border-subtle: var(--color-zinc-800);
+    --border-strong: var(--color-zinc-600);
+    --text-primary: var(--color-zinc-50);
+    --text-secondary: var(--color-zinc-400);
+    --text-muted: var(--color-zinc-600);
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    overflow-y: scroll;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Custom scrollbar for premium touch */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-subtle);
+    border-radius: 20px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border-strong);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  /* Form & Input Global Polish */
+  input, select, textarea {
+    @apply focus:outline-none transition-colors;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 1px var(--color-amber-500) !important;
+    border-color: var(--color-amber-500) !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  @page {
+    margin: 0;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-only, .print-only * {
+    visibility: visible;
+  }
+
+  .print-only {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Force background colors on print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
