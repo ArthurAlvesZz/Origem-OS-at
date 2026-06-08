@@ -273,7 +273,7 @@ export function Equipe() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in duration-500">
       <PageHeader 
-        title="Gestão de Equipe e Acessos" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Gestão de Equipe e Acessos"}]} 
+        title="Gestão de Equipe e Acessos" 
         description="Controle de usuários, permissões granulares e auditoria do tenant." 
       />
 

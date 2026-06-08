@@ -169,7 +169,7 @@ export function DigitalMenu() {
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-in fade-in duration-500 p-4 md:p-8">
       <PageHeader
-        title="Cardápio Digital & B2C" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Cardápio Digital & B2C"}]}
+        title="Cardápio Digital & B2C"
         description="Gerencie seu cardápio público, vendas online e recepcionamento via KDS."
         action={
           <Button 

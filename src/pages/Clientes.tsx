@@ -67,7 +67,7 @@ export function Clientes() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col animate-in fade-in duration-500">
       <PageHeader
-        title="Clientes & Parceiros" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Clientes & Parceiros"}]}
+        title="Clientes & Parceiros"
         description="Gerencie sua rede de contatos B2B, B2C e distribuidores."
         action={
           <Button 

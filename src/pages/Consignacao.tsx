@@ -55,7 +55,7 @@ export function Consignacao() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col animate-in fade-in duration-500" key={refreshKey}>
       <PageHeader 
-        title="Consignação Lite" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Consignação Lite"}]} 
+        title="Consignação Lite" 
         description="Controle simples de envios e acertos mensais em parceiros." 
         action={
           <Button 

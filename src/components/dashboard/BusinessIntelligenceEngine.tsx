@@ -23,6 +23,8 @@ export function BusinessIntelligenceEngine({ onNavigate, summary }: BiEngineProp
 
   // Calculate health score dynamically
   let healthScore = 100;
+  const fatDiff = ((summary.faturamentoMes / summary.metaFaturamento) * 100).toFixed(0);
+  
   if (summary.faturamentoMes < summary.metaFaturamento) {
     healthScore -= 15;
   }
@@ -32,11 +34,21 @@ export function BusinessIntelligenceEngine({ onNavigate, summary }: BiEngineProp
   if (summary.estoqueCritico > 0) {
     healthScore -= 10;
   }
+  if (summary.consignacoesVencidas > 0) {
+    healthScore -= 5;
+  }
   
   const healthStatus = healthScore >= 80 ? 'Excelente' : healthScore >= 60 ? 'Atenção' : 'Crítico';
   const healthColor = healthScore >= 80 ? 'text-emerald-500' : healthScore >= 60 ? 'text-amber-500' : 'text-red-500';
 
   const forecast = summary.faturamentoMes * 1.15; // Simple simulation
+
+  let textStatus = `A operação está performando com ${fatDiff}% da meta. `;
+  if (summary.estoqueCritico > 0) {
+      textStatus += `Requer atenção: ${summary.estoqueCritico} itens críticos no estoque.`;
+  } else {
+      textStatus += `Lucratividade saudável.`;
+  }
 
   return (
     <div className="space-y-6">
@@ -73,7 +85,7 @@ export function BusinessIntelligenceEngine({ onNavigate, summary }: BiEngineProp
             <div>
                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Health Score</p>
                <h3 className={`text-base font-semibold ${healthColor}`}>{healthStatus}</h3>
-               <p className="text-xs text-zinc-400 mt-0.5 line-clamp-2">A lucratividade está saudável, mas o churn de clientes B2B está 12% acima da média histórica.</p>
+               <p className="text-xs text-zinc-400 mt-0.5 max-w-[200px]">{textStatus}</p>
             </div>
           </div>
 
@@ -92,8 +104,8 @@ export function BusinessIntelligenceEngine({ onNavigate, summary }: BiEngineProp
                    <ShieldAlert size={14} className="text-red-400"/>
                    <span className="text-[10px] font-semibold uppercase tracking-wider">Anomalias</span>
                 </div>
-                <div className="text-sm font-semibold text-zinc-100">Ticket Médio</div>
-                <div className="text-[10px] text-red-400 mt-1 flex items-center gap-1"><TrendingDown size={10} /> Caiu 22% na semana</div>
+                <div className="text-sm font-semibold text-zinc-100">{summary.consignacoesVencidas > 0 ? `${summary.consignacoesVencidas} Consignações` : 'Nenhuma'}</div>
+                <div className="text-[10px] text-zinc-500 mt-1 flex items-center gap-1">{summary.consignacoesVencidas > 0 ? <><TrendingDown size={10} className="text-red-400" /> Atrasadas</> : 'Estável'}</div>
              </div>
           </div>
         </CardContent>

@@ -116,7 +116,7 @@ export function Configuracoes() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col animate-in fade-in duration-500">
       <PageHeader
-        title="Configurações do Workspace" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Configurações do Workspace"}]}
+        title="Configurações do Workspace"
         description="Gerencie perfil do tenant, filiais e regras centrais do seu negócio."
       />
 

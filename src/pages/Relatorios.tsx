@@ -191,7 +191,7 @@ export function Relatorios() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col no-print animate-in fade-in duration-500">
       <PageHeader
-        title="Central de Relatórios" breadcrumbs={[{label: "Dashboard", href: "#/"}, {label: "Central de Relatórios"}]}
+        title="Central de Relatórios"
         description="Geração de documentos, extratos e relatórios pormenorizados."
         action={
           <div className="flex gap-2">

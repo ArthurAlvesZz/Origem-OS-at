@@ -2,23 +2,24 @@ import { IDashboardRepository } from '../interfaces/IDashboardRepository';
 import { DashboardSummary, DashboardAlert, DashboardActivity, DashboardInsight } from '../../domain/types';
 
 export class MockDashboardRepository implements IDashboardRepository {
-  async getSummary(): Promise<DashboardSummary> {
-    const today = new Date();
-    // Simulate real business data
+  async getSummary(params?: { periodDays?: number }): Promise<DashboardSummary> {
+    const days = params?.periodDays || 30;
+    const factor = days / 30; // 30 is base
+
     return {
-      faturamentoMes: 48950.20,
-      metaFaturamento: 60000,
-      receitaRecebida: 39500.00,
-      contasReceber: 9450.20,
-      contasPagar: 12400.00,
-      lucroEstimado: 21500.50,
+      faturamentoMes: 48950.20 * factor,
+      metaFaturamento: 60000 * factor,
+      receitaRecebida: 39500.00 * factor,
+      contasReceber: 9450.20 * factor,
+      contasPagar: 12400.00 * factor,
+      lucroEstimado: 21500.50 * factor,
       margemBruta: 43.5,
       estoqueCritico: 3,
       consignacoesAbertas: 8,
       consignacoesVencidas: 2,
-      producaoMes: 520,
-      custoProducao: 14200,
-      pedidosMes: 142
+      producaoMes: 520 * factor,
+      custoProducao: 14200 * factor,
+      pedidosMes: Math.round(142 * factor)
     };
   }
 

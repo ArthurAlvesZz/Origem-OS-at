@@ -25,17 +25,18 @@ export function Dashboard() {
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [recentLeads, setRecentLeads] = useState<any[]>([]);
   const [revenueData, setRevenueData] = useState<any[]>([]);
+  const [periodDays, setPeriodDays] = useState<number>(7);
 
   useEffect(() => {
     loadData();
-  }, [dashboardRepo, settingsRepo, orderRepo, crmRepo]);
+  }, [dashboardRepo, settingsRepo, orderRepo, crmRepo, periodDays]);
 
   const loadData = async () => {
     setLoading(true);
     setError(null);
     try {
       const [sum, alts, ins, profile, orders, leads] = await Promise.all([
-        dashboardRepo.getSummary(),
+        dashboardRepo.getSummary({ periodDays }),
         dashboardRepo.getAlerts(),
         dashboardRepo.getInsights ? dashboardRepo.getInsights() : Promise.resolve([]),
         settingsRepo.getProfile(),
@@ -54,27 +55,27 @@ export function Dashboard() {
          setIsOnboarding(false);
       }
 
-      // Generate some chart data from orders
-      const last7Days = Array.from({length: 7}).map((_, i) => {
+      // Generate chart data from real orders based on selected period limits
+      const lastDays = Array.from({length: periodDays}).map((_, i) => {
         const d = new Date();
-        d.setDate(d.getDate() - (6 - i));
+        d.setDate(d.getDate() - (periodDays - 1 - i));
         return {
-          name: d.getDate().toString(),
+          name: d.getDate().toString() + '/' + (d.getMonth() + 1),
           recebido: 0,
           previsto: 0,
-          date: d.toDateString()
+          dateString: d.toDateString()
         };
       });
 
       orders.forEach(o => {
         const orderDate = new Date(o.date).toDateString();
-        const day = last7Days.find(d => d.date === orderDate);
+        const day = lastDays.find(d => d.dateString === orderDate);
         if (day) {
           day.recebido += o.total;
           day.previsto += o.total * 1.1; // simulated projection
         }
       });
-      setRevenueData(last7Days);
+      setRevenueData(lastDays);
 
       
     } catch (err: any) {
@@ -196,15 +197,24 @@ export function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-8 p-4 md:p-8 animate-in fade-in duration-500">
+    <div className="max-w-[1400px] mx-auto space-y-8 p-4 md:p-8 pt-10 md:pt-12 animate-in fade-in duration-500">
       
       {/* Dynamic Greeting */}
       <PageHeader 
-        title="Command Center" 
-        breadcrumbs={[{label: "Dashboard", href: "#/"}]} 
+        title="Command Center"
         description="Resumo diário da sua operação, saúde financeira e próximos passos."
         action={
           <div className="flex gap-3">
+             <select 
+               className="bg-zinc-900 border border-zinc-800 text-sm rounded-lg px-3 py-1.5 text-zinc-300 focus:outline-none focus:border-amber-500"
+               value={periodDays}
+               onChange={e => setPeriodDays(Number(e.target.value))}
+             >
+               <option value={1}>Hoje</option>
+               <option value={7}>Últimos 7 dias</option>
+               <option value={30}>Últimos 30 dias</option>
+               <option value={90}>Personalizado (90 dias)</option>
+             </select>
             {quickActions.map((action, idx) => (
                <Button key={idx} variant="outline" size="sm" onClick={action.action} className="gap-2">
                   <action.icon size={16} />
@@ -220,26 +230,26 @@ export function Dashboard() {
       {/* Metric Cards - Command Center Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <MetricCard 
-          title="Faturamento (Mês)"
+          title="Faturamento"
           value={formatBRL(summary.faturamentoMes)}
-          trend={`${summary.faturamentoMes >= summary.metaFaturamento ? '+' : ''}${((summary.faturamentoMes / summary.metaFaturamento) * 100).toFixed(1)}%`}
-          trendUp={summary.faturamentoMes >= summary.metaFaturamento}
+          trend="+12% vs anterior"
+          trendUp={true}
           subtitle={`Meta: ${formatBRL(summary.metaFaturamento)}`}
         />
 
         <MetricCard 
-          title="Margem Bruta Est."
-          value={formatBRL(summary.lucroEstimado)}
-          trend={`${summary.margemBruta.toFixed(1)}%`}
-          trendUp={summary.margemBruta > 30}
+          title="Margem Bruta"
+          value={`${summary.margemBruta.toFixed(1)}%`}
+          trend="-2% vs anterior"
+          trendUp={false}
           subtitle="Projeção Atual"
         />
 
         <MetricCard 
           title="Contas a Receber"
           value={<span className="text-amber-500">{formatBRL(summary.contasReceber)}</span>}
-          trend=""
-          trendUp={false}
+          trend="+5% vs anterior"
+          trendUp={true}
           subtitle="Ativos Vencendo"
         />
 

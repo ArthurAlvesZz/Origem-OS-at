@@ -252,7 +252,9 @@ export function Shell({ children, currentPage, onNavigate }: ShellProps) {
                  onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                  className="relative w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 rounded-full transition-colors border border-transparent hover:border-zinc-800">
                 <Bell size={18} className="stroke-[2]" />
-                <span className="absolute top-2.5 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-zinc-950"></span>
+                <span className="absolute top-2 right-1.5 flex h-3.5 w-3.5 items-center justify-center bg-red-500 text-[9px] font-bold text-white rounded-full border-2 border-zinc-950">
+                  3
+                </span>
               </button>
               <AnimatePresence>
                 {isNotificationsOpen && (
@@ -323,27 +325,29 @@ export function Shell({ children, currentPage, onNavigate }: ShellProps) {
           </header>
 
           {/* Page Content */}
-          <div className="flex-1 overflow-x-hidden p-4 md:p-8">
+          <div className="flex-1 overflow-visible min-w-0 p-4 md:p-8">
             {children}
           </div>
         </motion.main>
 
         {/* Global Status Indicator (Bottom Right) */}
-        <div 
-          onClick={() => onNavigate('conexao')}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-3 py-1.5 bg-zinc-900/90 border border-zinc-800/80 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md cursor-pointer hover:bg-zinc-800 hover:border-zinc-700 transition-all group shrink-0"
-          title="Verificar Conexão e Banco de Dados"
-        >
-          <div className={cn(
-            "w-2 h-2 rounded-full",
-            actualType === 'mock' 
-              ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" 
-              : "bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"
-          )} />
-          <span className="text-[11px] font-mono tracking-widest font-semibold uppercase text-zinc-400 group-hover:text-zinc-200">
-            {actualType === 'mock' ? 'Mock' : 'Live'}
-          </span>
-        </div>
+        {import.meta.env.DEV && (
+          <div 
+            onClick={() => onNavigate('conexao')}
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-3 py-1.5 bg-zinc-900/90 border border-zinc-800/80 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md cursor-pointer hover:bg-zinc-800 hover:border-zinc-700 transition-all group shrink-0"
+            title="Verificar Conexão e Banco de Dados"
+          >
+            <div className={cn(
+              "w-2 h-2 rounded-full",
+              actualType === 'mock' 
+                ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" 
+                : "bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+            )} />
+            <span className="text-[11px] font-mono tracking-widest font-semibold uppercase text-zinc-400 group-hover:text-zinc-200">
+              {actualType === 'mock' ? 'Mock' : 'Live'}
+            </span>
+          </div>
+        )}
 
         {/* Mobile Bottom Nav */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-zinc-950/95 backdrop-blur-xl border-t border-zinc-900 z-50 px-2 pb-safe-bottom pt-2 pb-4 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.5)]">
